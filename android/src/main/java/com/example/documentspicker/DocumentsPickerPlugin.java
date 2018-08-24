@@ -54,8 +54,13 @@ public class DocumentsPickerPlugin implements MethodCallHandler, PluginRegistry.
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
       } else {
         this.result = result;
+        String[] pdbTypes = { ".pdb", ".PDB" };
         FilePickerBuilder.getInstance().setMaxCount(1)
                 .setActivityTheme(R.style.LibAppTheme)
+                .setActivityTitle("Select .pdb File")
+                .addFileSupport("PDB" , pdbTypes)
+                .enableDocSupport(false)
+                .enableSelectAll(false)
                 .pickFile(activity);
       }
     } else {
@@ -69,7 +74,7 @@ public class DocumentsPickerPlugin implements MethodCallHandler, PluginRegistry.
     if (requestCode == FilePickerConst.REQUEST_CODE_DOC){
       if (intent != null)
         docPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
-    
+
       this.result.success(docPaths);
 
       return true;
